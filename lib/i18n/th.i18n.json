@@ -1,0 +1,47 @@
+{
+  "common": {
+    "app_name": "การเชื่อมต่อของฉัน",
+    "logout": "ออกจากระบบ",
+    "optional": "ไม่จำเป็น",
+    "address": "ที่อยู่",
+    "add_row": "เพิ่มแถว",
+    "bath_symbol": "฿"
+  },
+  "button": {
+    "cancel": "ยกเลิก",
+    "ok": "ตกลง",
+    "create_client": "สร้างลูกค้า",
+    "save_client": "บันทึกลูกค้า",
+    "try_again": "ลองอีกครั้ง",
+    "save": "บันทึก",
+    "save_task": "บันทึกงาน",
+    "update": "อัปเดต",
+    "en": "EN",
+    "th": "TH"
+  },
+  "home": {
+    "title": "หน้าแรก",
+    "tabbar_menu": {
+      "dashboard": "แดชบอร์ด",
+      "profile": "โปรไฟล์",
+      "settings": "ตั้งค่า"
+    },
+    "dashboard": {
+      "title": "แดชบอร์ด",
+      "description": "แอปพลิเคชันเว็บ Flutter ของคุณ",
+      "get_started": "เริ่มต้นใช้งาน"
+    },
+    "profile": {
+      "title": "โปรไฟล์",
+      "email": "อีเมล",
+      "phone": "โทรศัพท์",
+      "address": "ที่อยู่"
+    },
+    "settings": {
+      "title": "ตั้งค่า",
+      "notifications": "การแจ้งเตือน",
+      "dark_mode": "โหมดกลางคืน",
+      "language": "ภาษา"
+    }
+  }
+}

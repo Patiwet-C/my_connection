@@ -143,6 +143,7 @@ venv.bak/
 *.g.dart
 *.freezed.dart
 *.mocks.dart
+*.config.dart
 
 # Firebase
 google-services.json
