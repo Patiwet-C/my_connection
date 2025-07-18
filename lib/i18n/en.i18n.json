@@ -1,0 +1,47 @@
+{
+  "common": {
+    "app_name": "My Connection",
+    "logout": "Logout",
+    "optional": "Optional",
+    "address": "Address",
+    "add_row": "Add row",
+    "bath_symbol": "฿"
+  },
+  "button": {
+    "cancel": "Cancel",
+    "ok": "OK",
+    "create_client": "Create Client",
+    "save_client": "Save Client",
+    "try_again": "Try Again",
+    "save": "Save",
+    "save_task": "Save Task",
+    "update": "Update",
+    "en": "EN",
+    "th": "TH"
+  },
+  "home": {
+    "title": "Home",
+    "tabbar_menu": {
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "settings": "Settings"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Your web-based Flutter application",
+      "get_started": "Get Started"
+    },
+    "profile": {
+      "title": "Profile",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "settings": {
+      "title": "Settings",
+      "notifications": "Notifications",
+      "dark_mode": "Dark Mode",
+      "language": "Language"
+    }
+  }
+}
