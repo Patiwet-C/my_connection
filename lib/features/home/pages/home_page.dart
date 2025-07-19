@@ -13,26 +13,51 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage> {
-  final List<Widget> _pages = <Widget>[
-    DashboardPage(),
-    ProfilePage(),
-    SettingsPage(),
-  ];
+class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage>
+    with TickerProviderStateMixin {
+  @override
+  bool get isShowAppBar => true;
 
   @override
-  String getPageTitle() {
-    return translation.home.title;
+  Widget? getAppBarTitle() {
+    return StreamBuilder(
+      stream: bloc.languageChanged,
+      builder: (_, _) {
+        return Text(translation.home.title, style: styles.body1);
+      },
+    );
   }
 
   @override
   Widget buildPageContent(BuildContext context) {
     return StreamBuilder<int>(
-      stream: bloc.selectedIndex,
-      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-        final int index = snapshot.data ?? 0;
+      stream: bloc.languageChanged,
+      builder: (_, snapshot) {
+        final languageIndex = snapshot.data ?? 0;
 
-        return _pages.elementAt(index);
+        final tabController = TabController(
+          length: 2,
+          vsync: this,
+          initialIndex: languageIndex,
+        );
+
+        return StreamBuilder<int>(
+          stream: bloc.selectedIndex,
+          builder: (_, snapshot) {
+            final index = snapshot.data ?? 0;
+
+            return [
+              DashboardPage(),
+              ProfilePage(),
+              SettingsPage(
+                isDarkMode: bloc.isDarkMode,
+                onDarkModeChanged: bloc.onDarkModeChanged,
+                onLanguageChanged: bloc.onLanguageChanged,
+                tabController: tabController,
+              ),
+            ].elementAt(index);
+          },
+        );
       },
     );
   }
@@ -40,29 +65,34 @@ class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage> {
   @override
   Widget? getBottomNavigationBar() {
     return StreamBuilder<int>(
-      stream: bloc.selectedIndex,
-      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-        final int index = snapshot.data ?? 0;
+      stream: bloc.languageChanged,
+      builder: (_, snapshot) {
+        return StreamBuilder<int>(
+          stream: bloc.selectedIndex,
+          builder: (_, snapshot) {
+            final index = snapshot.data ?? 0;
 
-        return BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              label: translation.home.tabbar_menu.dashboard,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: translation.home.tabbar_menu.profile,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: translation.home.tabbar_menu.settings,
-            ),
-          ],
-          currentIndex: index,
-          selectedItemColor: AppColour.primary,
-          unselectedItemColor: AppColour.secondary,
-          onTap: bloc.onTabSelected,
+            return BottomNavigationBar(
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.dashboard),
+                  label: translation.home.tabbar_menu.dashboard,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: translation.home.tabbar_menu.profile,
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: translation.home.tabbar_menu.settings,
+                ),
+              ],
+              currentIndex: index,
+              selectedItemColor: AppColour.primary,
+              unselectedItemColor: AppColour.secondary,
+              onTap: bloc.onTabSelected,
+            );
+          },
         );
       },
     );

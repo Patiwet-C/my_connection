@@ -27,6 +27,6 @@ class EnvironmentWrapper {
   }
 
   static String get(String key) {
-    return dotenv.env[key]!;
+    return dotenv.env[key] ?? '';
   }
 }

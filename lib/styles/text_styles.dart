@@ -4,7 +4,7 @@ import 'package:my_connection/styles/app_colour.dart';
 import 'package:my_connection/styles/app_text_styles.dart';
 
 class TextStyles implements AppTextTheme {
-  static TextStyle prompt = GoogleFonts.prompt(color: AppColour.grey800);
+  static TextStyle get prompt => GoogleFonts.prompt(color: AppColour.onSurface);
 
   @override
   TextStyle get body1 => prompt.copyWith(
@@ -144,4 +144,15 @@ class TextStyles implements AppTextTheme {
     height: 28 / 20,
     fontWeight: FontWeight.w700,
   );
+
+  TextTheme getTextTheme() {
+    return TextTheme(
+      displayLarge: headline1,
+      displayMedium: headline2,
+      displaySmall: subtitle1,
+      bodyLarge: body1,
+      bodyMedium: body2,
+      labelLarge: caption1,
+    );
+  }
 }
