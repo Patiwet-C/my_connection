@@ -26,7 +26,7 @@ fvm flutter packages pub run build_runner build --delete-conflicting-outputs
 
 # Build web version
 echo "🏗️ Building web version..."
-fvm flutter build web --dart-define=flavor=develop
+fvm flutter build web --dart-define=flavor=develop --dart-define=FLUTTER_BASE_HREF=/ --no-tree-shake-icons --release
 
 # Deploy to Firebase
 echo "🚀 Deploying to Firebase..."

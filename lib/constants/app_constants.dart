@@ -1,10 +1,15 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:my_connection/app.dart';
+import 'package:my_connection/di/configure_dependencies.dart';
+import 'package:my_connection/routers/app_navigator.dart';
 import 'package:my_connection/utils/environment_util.dart';
+import 'package:my_connection/utils/logger_mixin.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 enum AppEnvironment { develop, staging, production }
 
-class AppConstants {
+class AppConstants with BuiltInLogger {
   final AppEnvironment envName;
   final String appVersion;
   final int buildNumber;
@@ -18,26 +23,25 @@ class AppConstants {
   static Future<AppConstants> initialized(PackageInfo packageInfo) async {
     try {
       final env = EnvironmentWrapper.getEnv();
-      // final iosOauthCLientId = EnvironmentWrapper.get('IOS_OAUTH_CLIENT_ID');
-      // final androidOauthCLientId = EnvironmentWrapper.get(
-      //   'ANDROID_OAUTH_CLIENT_ID',
-      // );
-      // final appSecret = EnvironmentWrapper.get('API_APP_SECRET');
 
       return AppConstants(
         envName: env,
         appVersion: packageInfo.version,
         buildNumber: int.tryParse(packageInfo.buildNumber) ?? 0,
-        // iosOauthClientId: iosOauthCLientId,
-        // androidOauthClientId: androidOauthCLientId,
-        // appSecret: appSecret,
       );
     } catch (e) {
       if (kDebugMode) {
-        print(e);
+        debugPrint('Error initializing AppConstants: $e');
       }
       rethrow;
     }
+  }
+
+  void setTheme(bool isDarkMode) {
+    final BuildContext currentContext =
+        getIt<AppNavigator>().currentState!.context;
+
+    MyConnectionApp.of(currentContext).changeTheme(isDarkMode);
   }
 
   String getAppInfo() {

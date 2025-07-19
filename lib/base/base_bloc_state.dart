@@ -30,17 +30,16 @@ abstract class BaseBlocState<
     with RouteAware
     implements LazyLoadingProvider {
   late final BLOC _bloc;
-  late final AppTextTheme _styles;
+  late AppTextTheme _styles;
   late final ScrollController _scrollController = ScrollController();
   late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late final Translations _translation;
   late final AppNavigator _appNavigator;
 
   I get bloc => _bloc.bloc;
   AppTextTheme get styles => _styles;
   GlobalKey<FormState> get formKey => _formKey;
   ScrollController get scrollController => _scrollController;
-  Translations get translation => _translation;
+  Translations get translation => t;
 
   @override
   void didChangeDependencies() {
@@ -55,9 +54,11 @@ abstract class BaseBlocState<
     _bloc = provideBloc(GetIt.I);
     _scrollController.addListener(_scrollListener);
     _appNavigator = getIt<AppNavigator>();
-    _translation = t;
     _styles = AppTextStyles.get();
     _bloc.onInit();
+
+    // Listen to theme changes
+    AppTextStyles.themeNotifier.addListener(_onThemeChanged);
   }
 
   @override
@@ -67,6 +68,15 @@ abstract class BaseBlocState<
     _scrollController.dispose();
     _bloc.onDispose();
     getIt<AppNavigator>().routeObserver?.unsubscribe(this);
+    AppTextStyles.themeNotifier.removeListener(_onThemeChanged);
+  }
+
+  void _onThemeChanged() {
+    if (mounted) {
+      setState(() {
+        _styles = AppTextStyles.get();
+      });
+    }
   }
 
   @protected
@@ -123,10 +133,13 @@ abstract class BaseBlocState<
 
   bool get isShowAppBar => getPageTitle() != null;
 
+  Widget? getAppBarTitle() => null;
+
   PreferredSizeWidget? getAppBar(BuildContext context) {
     return isShowAppBar
         ? AppBar(
-            title: Text(getPageTitle()!, style: _styles.body1),
+            title:
+                getAppBarTitle() ?? Text(getPageTitle()!, style: _styles.body1),
             backgroundColor: AppColour.primary,
             centerTitle: true,
             automaticallyImplyLeading: canPop(),

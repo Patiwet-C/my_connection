@@ -7,6 +7,7 @@ import 'package:my_connection/i18n/strings.g.dart';
 import 'package:my_connection/routers/app_navigator.dart';
 import 'package:my_connection/routers/custom_route_observer.dart';
 import 'package:my_connection/routers/navigation_router.dart';
+import 'package:my_connection/styles/app_colour.dart';
 import 'package:my_connection/styles/app_text_styles.dart';
 import 'package:my_connection/utils/local_storage.dart';
 import 'package:rxdart/rxdart.dart';
@@ -27,10 +28,10 @@ class _MyConnectionAppState extends State<MyConnectionApp> {
   final _appKey = GlobalKey();
   final _navigatorKey = GlobalKey<NavigatorState>();
   final _routeObserver = CustomRouteObserver<ModalRoute<void>>();
-  // late FirebaseAnalyticsObserver _analyticsObserver;
+
   late final BehaviorSubject<bool> _isDarkMode;
 
-  final _styles = AppTextStyles.get();
+  late AppTextTheme _styles;
 
   @override
   void initState() {
@@ -45,13 +46,14 @@ class _MyConnectionAppState extends State<MyConnectionApp> {
     );
 
     LocaleSettings.setLocale(locale == 0 ? AppLocale.en : AppLocale.th);
-    // _analyticsObserver = FirebaseAnalyticsObserver(
-    //   analytics: getIt<FirebaseAnalytics>(),
-    // );
+    _styles = AppTextStyles.get();
   }
 
   void changeTheme(bool isDarkMode) {
     _isDarkMode.add(isDarkMode);
+    setState(() {
+      _styles = AppTextStyles.get();
+    });
   }
 
   @override
@@ -70,35 +72,24 @@ class _MyConnectionAppState extends State<MyConnectionApp> {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          theme: ThemeData(brightness: Brightness.light).copyWith(
-            textTheme: TextTheme(
-              displayLarge: _styles.headline1,
-              displayMedium: _styles.headline2,
-              displaySmall: _styles.subtitle1,
-              bodyLarge: _styles.body1,
-              bodyMedium: _styles.body2,
-              labelLarge: _styles.caption1,
-            ),
+          theme: ThemeData(
+            useMaterial3: true,
+            brightness: Brightness.light,
+            textTheme: _styles.getTextTheme(),
+            colorScheme: AppColour.getColorScheme(false),
           ),
-          darkTheme: ThemeData(brightness: Brightness.dark).copyWith(
-            textTheme: TextTheme(
-              displayLarge: _styles.headline1,
-              displayMedium: _styles.headline2,
-              displaySmall: _styles.subtitle1,
-              bodyLarge: _styles.body1,
-              bodyMedium: _styles.body2,
-              labelLarge: _styles.caption1,
-            ),
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            brightness: Brightness.dark,
+            textTheme: _styles.getTextTheme(),
+            colorScheme: AppColour.getColorScheme(true),
           ),
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
           onGenerateRoute: NavigationRouter.router,
           navigatorKey: _navigatorKey,
           initialRoute:
               widget.initialRoute ?? (CorePlatform.isWeb ? '/' : null),
-          navigatorObservers: [
-            _routeObserver,
-            // _analyticsObserver
-          ],
+          navigatorObservers: [_routeObserver],
           builder: (BuildContext context, Widget? child) {
             CorePlatform.refresh(context);
             final rootMediaQuery = MediaQuery.of(context);

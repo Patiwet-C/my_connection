@@ -34,7 +34,7 @@ class SwitchTabButton extends StatelessWidget {
         indicator: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: AppColour.shadowMedium,
+              color: AppColour.shadowColour,
               spreadRadius: 2,
               blurRadius: 6,
               offset: const Offset(0, 4),
@@ -44,6 +44,7 @@ class SwitchTabButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(7.0),
           color: AppColour.primary,
         ),
+        indicatorSize: TabBarIndicatorSize.tab,
         labelColor: AppColour.white,
         unselectedLabelColor: AppColour.secondary,
         onTap: onTap,

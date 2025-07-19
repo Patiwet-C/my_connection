@@ -24,10 +24,16 @@ abstract class AppTextTheme {
   TextStyle get btnXS;
   TextStyle get medium;
   TextStyle get small;
+
+  TextTheme getTextTheme();
 }
 
 class AppTextStyles {
   AppTextStyles._();
+
+  // Theme change notifier
+  static final ValueNotifier<bool> _themeNotifier = ValueNotifier<bool>(false);
+  static ValueNotifier<bool> get themeNotifier => _themeNotifier;
 
   static TextStyles get() {
     final locale = LocaleSettings.currentLocale;
@@ -37,5 +43,10 @@ class AppTextStyles {
       default:
         return TextStyles();
     }
+  }
+
+  static void updateTheme(bool isDarkMode) {
+    // Notify all listeners that the theme has changed
+    _themeNotifier.value = isDarkMode;
   }
 }

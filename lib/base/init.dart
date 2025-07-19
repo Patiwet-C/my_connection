@@ -34,10 +34,7 @@ class Init {
 
       final env = appEnvironment ?? EnvironmentWrapper.getEnv();
 
-      await Future.wait([
-        // Firebase.initializeApp(),
-        EnvironmentWrapper.loadEnvironmentVariables(env),
-      ]);
+      await Future.wait([EnvironmentWrapper.loadEnvironmentVariables(env)]);
 
       await configureDependencies();
 
