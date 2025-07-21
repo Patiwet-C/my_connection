@@ -145,6 +145,10 @@ venv.bak/
 *.mocks.dart
 *.config.dart
 
+# Generated folders
+generated/
+lib/generated/
+
 # Firebase
 google-services.json
 GoogleService-Info.plist

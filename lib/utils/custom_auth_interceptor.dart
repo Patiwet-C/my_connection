@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_connection/data/usecases/auth/get_auth_token_usecase.dart';
+import 'package:my_connection/di/configure_dependencies.dart';
 import 'package:my_connection/di/dio_client.dart';
 import 'package:my_connection/routers/app_navigator.dart';
 
@@ -18,12 +20,13 @@ class CustomAuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final authToken = '';
+    final getAuthTokenUseCase = getIt<GetAuthTokenUseCase>();
+    final authToken = await getAuthTokenUseCase.exec(null);
 
-    if (authToken.isNotEmpty) {
-      final String authTokenValue = authToken;
-      final RequestOptions request =
-          options.._setAuthenticationHeader(authTokenValue);
+    if (authToken.isValue) {
+      final String authTokenValue = authToken.asValue!.value;
+      final RequestOptions request = options
+        .._setAuthenticationHeader(authTokenValue);
       super.onRequest(request, handler);
     } else {
       final error = DioException(
@@ -43,8 +46,8 @@ class CustomAuthInterceptor extends Interceptor {
     if (accessToken.isNotEmpty) {
       final currentAttempt = error.requestOptions._retryAttempt + 1;
       final accessTokenValue = accessToken;
-      final requestOptions =
-          error.requestOptions.._retryAttempt = currentAttempt;
+      final requestOptions = error.requestOptions
+        .._retryAttempt = currentAttempt;
       requestOptions._setAuthenticationHeader(accessTokenValue);
       try {
         await dio!.client.fetch(requestOptions).then((value) {

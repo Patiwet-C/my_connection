@@ -36,24 +36,20 @@ class _MyConnectionAppState extends State<MyConnectionApp> {
   @override
   void initState() {
     super.initState();
-    final localStorage = getIt<LocalStorage>();
     final locale =
-        localStorage.getCachedData<int>(StorageKey.languageSetting) ?? 0;
+        getIt<LocalStorage>().getCachedData<int>(StorageKey.languageSetting) ??
+        0;
     getIt<AppNavigator>().setNavigatorKey(_navigatorKey);
     getIt<AppNavigator>().setRouteObserver(_routeObserver);
-    _isDarkMode = BehaviorSubject<bool>.seeded(
-      localStorage.getCachedData<bool>(StorageKey.darkModeSetting) ?? false,
-    );
+    _isDarkMode = BehaviorSubject<bool>.seeded(AppColour.isDarkMode);
 
     LocaleSettings.setLocale(locale == 0 ? AppLocale.en : AppLocale.th);
     _styles = AppTextStyles.get();
   }
 
   void changeTheme(bool isDarkMode) {
+    AppColour.setIsDarkMode(isDarkMode);
     _isDarkMode.add(isDarkMode);
-    setState(() {
-      _styles = AppTextStyles.get();
-    });
   }
 
   @override
@@ -76,13 +72,13 @@ class _MyConnectionAppState extends State<MyConnectionApp> {
             useMaterial3: true,
             brightness: Brightness.light,
             textTheme: _styles.getTextTheme(),
-            colorScheme: AppColour.getColorScheme(false),
+            colorScheme: AppColour.getColorScheme(isDarkMode: false),
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
             brightness: Brightness.dark,
             textTheme: _styles.getTextTheme(),
-            colorScheme: AppColour.getColorScheme(true),
+            colorScheme: AppColour.getColorScheme(isDarkMode: true),
           ),
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
           onGenerateRoute: NavigationRouter.router,

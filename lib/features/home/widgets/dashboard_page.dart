@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_connection/base/base_stateless.dart';
 import 'package:my_connection/i18n/strings.g.dart';
 import 'package:my_connection/widgets/vgap.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends BaseStateless {
   const DashboardPage({super.key});
 
   @override
@@ -15,15 +16,9 @@ class DashboardPage extends StatelessWidget {
         children: [
           const Icon(Icons.dashboard, size: 100, color: Colors.blue),
           const VGap(20),
-          Text(
-            t.home.dashboard.title,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
+          Text(t.home.dashboard.title, style: styles.headline1),
           const VGap(10),
-          Text(
-            t.home.dashboard.description,
-            style: TextStyle(fontSize: 16, color: Colors.grey),
-          ),
+          Text(t.home.dashboard.description, style: styles.body1),
           const VGap(30),
           ElevatedButton(
             onPressed: () {

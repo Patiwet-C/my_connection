@@ -17,7 +17,31 @@
     "save_task": "บันทึกงาน",
     "update": "อัปเดต",
     "en": "EN",
-    "th": "TH"
+    "th": "TH",
+    "on": "เปิด",
+    "off": "ปิด",
+    "login": "เข้าสู่ระบบ",
+    "register": "สมัครสมาชิก",
+    "forgot_password": "ลืมรหัสผ่าน?"
+  },
+  "auth": {
+    "login": {
+      "title": "เข้าสู่ระบบ",
+      "email": "อีเมล",
+      "email_hint": "กรอกอีเมล",
+      "password": "รหัสผ่าน",
+      "password_hint": "กรอกรหัสผ่าน"
+    },
+    "registration": {
+      "title": "สมัครสมาชิก",
+      "username": "ชื่อผู้ใช้งาน",
+      "username_hint": "กรอกชื่อผู้ใช้งาน",
+      "email": "อีเมล",
+      "email_hint": "กรอกอีเมล",
+      "password": "รหัสผ่าน",
+      "password_hint": "กรอกรหัสผ่าน",
+      "confirm_password": "ยืนยันรหัสผ่าน"
+    }
   },
   "home": {
     "title": "หน้าหลัก",

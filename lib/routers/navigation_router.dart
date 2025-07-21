@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_connection/constants/router_name.dart';
+import 'package:my_connection/constants/storage_key.dart';
 import 'package:my_connection/di/configure_dependencies.dart';
 import 'package:my_connection/routers/app_navigator.dart';
 import 'package:my_connection/routers/app_page_route_builder.dart';
 import 'package:my_connection/routers/navable.dart';
+import 'package:my_connection/utils/local_storage.dart';
 
 @singleton
 class NavigationRouter {
@@ -14,9 +16,14 @@ class NavigationRouter {
         settings.arguments as AppNavigatorConfiguration?;
 
     if (routeName == '/') {
-      routeName = RouterName.homePage;
-    } else {
-      return null;
+      final accessToken = getIt<LocalStorage>().getCachedData(
+        StorageKey.accessToken,
+      );
+      if (accessToken != null) {
+        routeName = RouterName.homePage;
+      } else {
+        routeName = RouterName.authenticationPage;
+      }
     }
 
     final widget = getIt<NavAble>(

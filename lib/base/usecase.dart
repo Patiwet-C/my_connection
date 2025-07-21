@@ -19,10 +19,15 @@ abstract class UseCase<REQUEST, RESPONSE> with BuiltInLogger {
   Future<Result<RESPONSE>> exec(REQUEST params) async {
     try {
       final result = await execute(params);
+
+      logger.v('------------RESULT-----------');
+      logger.v('${DateTime.now()}\n${result.toString()}');
+      logger.v('-----------------------------');
+
       return Result<RESPONSE>.value(result);
     } on DioException catch (e) {
       logger.v('got Dio error');
-      final error = e.error;
+      final error = e.response?.data;
 
       if (error is BaseApiError) {
         return Result<RESPONSE>.error(await handleApiError(error, params));
@@ -42,9 +47,9 @@ abstract class UseCase<REQUEST, RESPONSE> with BuiltInLogger {
         await handleApiError(BaseApiError(e.response), params),
       );
     } catch (e) {
-      debugPrint('------------ERROR-----------');
-      debugPrint('${DateTime.now()}\n${e.toString()}');
-      debugPrint('-----------------------------');
+      logger.v('------------ERROR-----------');
+      logger.v('${DateTime.now()}\n${e.toString()}');
+      logger.v('-----------------------------');
       if (e is BaseError) {
         return Result<RESPONSE>.error(e);
       }

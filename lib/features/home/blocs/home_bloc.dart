@@ -11,11 +11,11 @@ import 'package:rxdart/rxdart.dart';
 
 abstract class IHomeBloc {
   ValueStream<int> get selectedIndex;
-  Stream<bool> get isDarkMode;
-  Stream<int> get languageChanged;
+  int get languageIndex;
+  int get darkModeIndex;
 
   void onTabSelected(int index);
-  void onDarkModeChanged(bool isDarkMode);
+  void onDarkModeChanged(int index);
   void onLanguageChanged(int index);
 }
 
@@ -29,20 +29,21 @@ class HomeBloc extends BaseBloc<IHomeBloc> implements IHomeBloc {
 
   final ActivityIndicator _activityIndicator = ActivityIndicator();
 
-  final BehaviorSubject<int> _selectedIndex = BehaviorSubject<int>.seeded(0);
-  final BehaviorSubject<bool> _isDarkMode = BehaviorSubject<bool>.seeded(false);
-  final BehaviorSubject<int> _languageChanged = BehaviorSubject<int>.seeded(0);
+  final BehaviorSubject<int> _selectedIndex = BehaviorSubject<int>.seeded(2);
+
+  int _languageIndex = 0;
+  int _darkModeIndex = 0;
 
   @override
   void onInit() {
     super.onInit();
 
-    _isDarkMode.add(
-      _localStorage.getCachedData<bool>(StorageKey.darkModeSetting) ?? false,
-    );
-    _languageChanged.add(
-      _localStorage.getCachedData<int>(StorageKey.languageSetting) ?? 0,
-    );
+    final isDarkMode =
+        _localStorage.getCachedData<bool>(StorageKey.darkModeSetting) ?? false;
+    _languageIndex =
+        _localStorage.getCachedData<int>(StorageKey.languageSetting) ?? 0;
+
+    _darkModeIndex = isDarkMode ? 1 : 0;
   }
 
   @override
@@ -51,20 +52,20 @@ class HomeBloc extends BaseBloc<IHomeBloc> implements IHomeBloc {
   }
 
   @override
-  void onDarkModeChanged(bool isDarkMode) {
+  void onDarkModeChanged(int index) {
+    final isDarkMode = index == 0;
     _localStorage.cacheData(key: StorageKey.darkModeSetting, data: isDarkMode);
     _appConstants.setTheme(isDarkMode);
     // Update text styles to reflect theme change
     AppTextStyles.updateTheme(isDarkMode);
-
-    _isDarkMode.add(isDarkMode);
+    _darkModeIndex = index;
   }
 
   @override
   void onLanguageChanged(int index) {
     _localStorage.cacheData(key: StorageKey.languageSetting, data: index);
     CommonUtils.changeLanguage(index);
-    _languageChanged.add(index);
+    _languageIndex = index;
   }
 
   @override
@@ -77,8 +78,8 @@ class HomeBloc extends BaseBloc<IHomeBloc> implements IHomeBloc {
   ValueStream<int> get selectedIndex => _selectedIndex;
 
   @override
-  Stream<bool> get isDarkMode => _isDarkMode;
+  int get languageIndex => _languageIndex;
 
   @override
-  Stream<int> get languageChanged => _languageChanged;
+  int get darkModeIndex => _darkModeIndex;
 }

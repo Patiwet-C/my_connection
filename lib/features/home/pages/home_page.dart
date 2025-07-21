@@ -21,7 +21,7 @@ class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage>
   @override
   Widget? getAppBarTitle() {
     return StreamBuilder(
-      stream: bloc.languageChanged,
+      stream: bloc.selectedIndex,
       builder: (_, _) {
         return Text(translation.home.title, style: styles.body1);
       },
@@ -30,34 +30,41 @@ class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage>
 
   @override
   Widget buildPageContent(BuildContext context) {
+    final languageController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: bloc.languageIndex,
+    );
+
+    final darkModeController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: bloc.darkModeIndex,
+    );
+
     return StreamBuilder<int>(
-      stream: bloc.languageChanged,
+      stream: bloc.selectedIndex,
       builder: (_, snapshot) {
-        final languageIndex = snapshot.data ?? 0;
+        final index = snapshot.data ?? 0;
 
-        final tabController = TabController(
-          length: 2,
-          vsync: this,
-          initialIndex: languageIndex,
-        );
-
-        return StreamBuilder<int>(
-          stream: bloc.selectedIndex,
-          builder: (_, snapshot) {
-            final index = snapshot.data ?? 0;
-
-            return [
-              DashboardPage(),
-              ProfilePage(),
-              SettingsPage(
-                isDarkMode: bloc.isDarkMode,
-                onDarkModeChanged: bloc.onDarkModeChanged,
-                onLanguageChanged: bloc.onLanguageChanged,
-                tabController: tabController,
-              ),
-            ].elementAt(index);
-          },
-        );
+        return [
+          DashboardPage(),
+          ProfilePage(),
+          SettingsPage(
+            onDarkModeChanged: (int index) {
+              setState(() {
+                bloc.onDarkModeChanged(index);
+              });
+            },
+            onLanguageChanged: (int index) {
+              setState(() {
+                bloc.onLanguageChanged(index);
+              });
+            },
+            languageController: languageController,
+            darkModeController: darkModeController,
+          ),
+        ].elementAt(index);
       },
     );
   }
@@ -65,7 +72,7 @@ class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage>
   @override
   Widget? getBottomNavigationBar() {
     return StreamBuilder<int>(
-      stream: bloc.languageChanged,
+      stream: bloc.selectedIndex,
       builder: (_, snapshot) {
         return StreamBuilder<int>(
           stream: bloc.selectedIndex,
