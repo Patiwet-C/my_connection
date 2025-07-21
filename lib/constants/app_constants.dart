@@ -62,7 +62,7 @@ class AppConstants with BuiltInLogger {
       case AppEnvironment.staging:
         return 'https://api-staging.nonprod.hops.is';
       default:
-        return 'https://api-dev.nonprod.hops.is';
+        return 'http://localhost:8081';
     }
   }
 }

@@ -1,4 +1,4 @@
-import 'package:my_connection/base/status_response.dart';
+import 'package:my_connection/data/entities/status_model.dart';
 import 'package:my_connection/di/dio_client.dart';
 
 class NoInternetConnection implements Exception {}
@@ -31,7 +31,7 @@ class BaseApiError extends BaseError {
 
   String getCode() {
     try {
-      final statusResponse = StatusResponse.fromJson(response?.data['status']);
+      final statusResponse = StatusResponse.fromJson(response?.data);
       return statusResponse.code.toString();
     } catch (e) {
       return response?.statusCode.toString() ?? '';
@@ -40,7 +40,8 @@ class BaseApiError extends BaseError {
 
   String getMessage() {
     try {
-      final statusResponse = StatusResponse.fromJson(response?.data['status']);
+      final responseData = response?.data;
+      final statusResponse = StatusResponse.fromJson(responseData);
       return statusResponse.message.toString();
     } catch (e) {
       return response?.statusMessage ?? 'Something went wrong';

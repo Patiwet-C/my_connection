@@ -131,18 +131,20 @@ abstract class BaseBlocState<
 
   bool canPop() => _appNavigator.canPop();
 
-  bool get isShowAppBar => getPageTitle() != null;
+  bool get isShowAppBar => true;
 
   Widget? getAppBarTitle() => null;
 
   PreferredSizeWidget? getAppBar(BuildContext context) {
-    return isShowAppBar
+    return isShowAppBar && canPop()
         ? AppBar(
-            title:
-                getAppBarTitle() ?? Text(getPageTitle()!, style: _styles.body1),
-            backgroundColor: AppColour.primary,
-            centerTitle: true,
+            title: getAppBarTitle(),
+            backgroundColor: AppColour.transparent,
             automaticallyImplyLeading: canPop(),
+            leading: IconButton(
+              onPressed: () => _appNavigator.pop(),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            ),
           )
         : null;
   }
@@ -176,7 +178,10 @@ abstract class BaseBlocState<
           Scaffold(
             key: _formKey,
             appBar: getAppBar(context),
-            body: buildPageContent(context),
+            body: SingleChildScrollView(
+              controller: _scrollController,
+              child: buildPageContent(context),
+            ),
             floatingActionButton: getFloatingActionButton(),
             bottomNavigationBar: getBottomNavigationBar(),
             drawer: getDrawer(),

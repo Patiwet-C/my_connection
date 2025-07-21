@@ -22,7 +22,7 @@ class SwitchTabButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120,
+      width: 150,
       height: 40,
       decoration: BoxDecoration(
         border: Border.all(color: AppColour.primary, width: 1.5),
@@ -34,22 +34,20 @@ class SwitchTabButton extends StatelessWidget {
         indicator: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: AppColour.shadowColour,
+              color: AppColour.shadowMedium,
               spreadRadius: 2,
               blurRadius: 6,
               offset: const Offset(0, 4),
             ),
           ],
-          border: Border.all(color: AppColour.shadowMedium, width: 0.5),
+          border: Border.all(color: AppColour.shadowDark, width: 0.5),
           borderRadius: BorderRadius.circular(7.0),
           color: AppColour.primary,
         ),
         indicatorSize: TabBarIndicatorSize.tab,
-        labelColor: AppColour.white,
-        unselectedLabelColor: AppColour.secondary,
         onTap: onTap,
         labelStyle: labelStyle ?? AppTextStyles.get().body2,
-        tabs: [
+        tabs: <Widget>[
           Center(child: Tab(text: firstLabel)),
           Center(child: Tab(text: secondLabel)),
         ],

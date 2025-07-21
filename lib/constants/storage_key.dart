@@ -4,6 +4,8 @@ class StorageKey {
   static const String cache = 'cache_';
   static String storageKey(String key) => '$cache$key';
 
+  static const String accessToken = 'accessToken';
+
   static const String data = 'data';
   static const String timestamp = 'timestamp';
   static const String expiration = 'expiration';
