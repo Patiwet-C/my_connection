@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_connection/base/base_bloc_state.dart';
+import 'package:my_connection/constants/default_values.dart';
 import 'package:my_connection/features/home/blocs/home_bloc.dart';
 import 'package:my_connection/features/home/widgets/dashboard_page.dart';
 import 'package:my_connection/features/home/widgets/profile_page.dart';
@@ -53,8 +54,14 @@ class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage>
           child: IndexedStack(
             index: index,
             children: <Widget>[
-              const DashboardPage(),
-              const ProfilePage(),
+              DashboardPage(
+                key: ValueKey(DefaultValues.dashboardKey(index)),
+                refreshKey: index,
+              ),
+              ProfilePage(
+                key: ValueKey(DefaultValues.profileKey(index)),
+                refreshKey: index,
+              ),
               SettingsPage(
                 onDarkModeChanged: (int index) {
                   // NOTE: have to setstate to re-render screen

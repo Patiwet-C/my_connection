@@ -6,7 +6,9 @@ import 'package:my_connection/widgets/custom_card.dart';
 import 'package:my_connection/widgets/vgap.dart';
 
 class ProfilePage extends BaseStateless {
-  const ProfilePage({super.key});
+  final int? refreshKey;
+
+  const ProfilePage({super.key, this.refreshKey});
 
   @override
   Widget build(BuildContext context) {

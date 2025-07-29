@@ -22,7 +22,8 @@
     "off": "ปิด",
     "login": "เข้าสู่ระบบ",
     "register": "สมัครสมาชิก",
-    "forgot_password": "ลืมรหัสผ่าน?"
+    "forgot_password": "ลืมรหัสผ่าน?",
+    "logout": "ออกจากระบบ"
   },
   "auth": {
     "login": {

@@ -73,7 +73,8 @@ class SettingsPage extends BaseStateless {
                   ),
                   const Divider(),
                   CustomButton(
-                    label: 'logout',
+                    key: ValueKey(t.button.logout),
+                    label: t.button.logout,
                     onPressed: onLogout,
                     isFullWidth: true,
                   ),
