@@ -16,9 +16,12 @@ abstract class IAuthenticationBloc {
   TextEditingController get emailController;
   TextEditingController get passwordController;
 
+  ValueStream<bool> get isPasswordObscure;
+
   void login();
   void register();
   void forgotPassword();
+  void onPasswordObscureIconPressed();
 }
 
 @injectable
@@ -72,6 +75,10 @@ class AuthenticationBloc extends BaseBloc<IAuthenticationBloc>
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final BehaviorSubject<bool> _isPasswordObscure = BehaviorSubject<bool>.seeded(
+    true,
+  );
+
   @override
   IAuthenticationBloc get bloc => this;
 
@@ -103,7 +110,15 @@ class AuthenticationBloc extends BaseBloc<IAuthenticationBloc>
   }
 
   @override
+  void onPasswordObscureIconPressed() {
+    _isPasswordObscure.add(!_isPasswordObscure.value);
+  }
+
+  @override
   TextEditingController get emailController => _emailController;
   @override
   TextEditingController get passwordController => _passwordController;
+
+  @override
+  ValueStream<bool> get isPasswordObscure => _isPasswordObscure;
 }

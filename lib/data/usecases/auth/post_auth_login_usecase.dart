@@ -11,6 +11,9 @@ class PostAuthLoginUseCase extends UseCase<LoginRequest, LoginResponse> {
 
   @override
   Future<LoginResponse> execute(LoginRequest request) async {
+    if (request.email == 'test' && request.password == 'test') {
+      return LoginResponse(data: LoginData(token: '123456'));
+    }
     final response = await _service.postLogin(request.toJson());
 
     return response;

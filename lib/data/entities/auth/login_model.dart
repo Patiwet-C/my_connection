@@ -14,11 +14,7 @@ sealed class LoginRequest with _$LoginRequest {
 
 @freezed
 sealed class LoginResponse with _$LoginResponse {
-  factory LoginResponse({
-    @JsonKey(name: 'status_code') final int? code,
-    final String? message,
-    final LoginData? data,
-  }) = _LoginResponse;
+  factory LoginResponse({final LoginData? data}) = _LoginResponse;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseFromJson(json);

@@ -1,13 +1,14 @@
 {
-  "hosting": {
-    "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "frameworksBackend": {
-      "region": "asia-east1"
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "my-connection-21095",
+          "configurations": {
+            "web": "1:735591438668:web:97ebf95fe31299ee7217e9"
+          }
+        }
+      }
     }
   }
 }

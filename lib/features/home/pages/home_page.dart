@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_connection/base/base_bloc_state.dart';
+import 'package:my_connection/constants/default_values.dart';
 import 'package:my_connection/features/home/blocs/home_bloc.dart';
 import 'package:my_connection/features/home/widgets/dashboard_page.dart';
 import 'package:my_connection/features/home/widgets/profile_page.dart';
@@ -47,24 +48,40 @@ class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage>
       builder: (_, snapshot) {
         final index = snapshot.data ?? 0;
 
-        return [
-          DashboardPage(),
-          ProfilePage(),
-          SettingsPage(
-            onDarkModeChanged: (int index) {
-              setState(() {
-                bloc.onDarkModeChanged(index);
-              });
-            },
-            onLanguageChanged: (int index) {
-              setState(() {
-                bloc.onLanguageChanged(index);
-              });
-            },
-            languageController: languageController,
-            darkModeController: darkModeController,
+        return SingleChildScrollView(
+          controller: scrollController,
+          physics: const BouncingScrollPhysics(),
+          child: IndexedStack(
+            index: index,
+            children: <Widget>[
+              DashboardPage(
+                key: ValueKey(DefaultValues.dashboardKey(index)),
+                refreshKey: index,
+              ),
+              ProfilePage(
+                key: ValueKey(DefaultValues.profileKey(index)),
+                refreshKey: index,
+              ),
+              SettingsPage(
+                onDarkModeChanged: (int index) {
+                  // NOTE: have to setstate to re-render screen
+                  setState(() {
+                    bloc.onDarkModeChanged(index);
+                  });
+                },
+                onLanguageChanged: (int index) {
+                  // NOTE: have to setstate to re-render screen
+                  setState(() {
+                    bloc.onLanguageChanged(index);
+                  });
+                },
+                onLogout: bloc.logout,
+                languageController: languageController,
+                darkModeController: darkModeController,
+              ),
+            ],
           ),
-        ].elementAt(index);
+        );
       },
     );
   }

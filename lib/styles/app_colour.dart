@@ -14,26 +14,24 @@ class AppColour {
     _isDarkMode = isDarkMode;
   }
 
-  // ===== VARIABLES =====
-
   // Light theme colours
   static const Color _lightPrimary = Color(0xFF3B82F6);
   static const Color _lightOnPrimary = Color(0xFFFFFFFF);
   static const Color _lightPrimaryContainer = Color(0xFFEFF6FF);
   static const Color _lightOnPrimaryContainer = Color(0xFF1E40AF);
-  static const Color _lightSecondary = Color(0xFF8B5CF6);
+  static const Color _lightSecondary = Color(0xFF7C3AED);
   static const Color _lightOnSecondary = Color(0xFFFFFFFF);
   static const Color _lightSecondaryContainer = Color(0xFFF3F4F6);
   static const Color _lightOnSecondaryContainer = Color(0xFF5B21B6);
-  static const Color _lightTertiary = Color(0xFF10B981);
+  static const Color _lightTertiary = Color(0xFF059669);
   static const Color _lightOnTertiary = Color(0xFFFFFFFF);
   static const Color _lightTertiaryContainer = Color(0xFFECFDF5);
   static const Color _lightOnTertiaryContainer = Color(0xFF065F46);
   static const Color _lightSurface = Color(0xFFF1F5F9);
   static const Color _lightOnSurface = Color(0xFF374151);
-  static const Color _lightSurfaceVariant = Color(0xFFF1F5F9);
+  static const Color _lightSurfaceVariant = Color(0xFFE2E8F0);
   static const Color _lightOnSurfaceVariant = Color(0xFF475569);
-  static const Color _lightBackground = Color(0xFFF8FAFC);
+  static const Color _lightBackground = Color(0xFFF1F5F9);
   static const Color _lightOnBackground = Color(0xFF374151);
   static const Color _lightError = Color(0xFFEF4444);
   static const Color _lightOnError = Color(0xFFFFFFFF);
@@ -75,11 +73,11 @@ class AppColour {
   static const Color _darkOnTertiary = Color(0xFF064E3B);
   static const Color _darkTertiaryContainer = Color(0xFF065F46);
   static const Color _darkOnTertiaryContainer = Color(0xFFECFDF5);
-  static const Color _darkSurface = Color(0xFF1A1A1A);
+  static const Color _darkSurface = Color(0xFF1F2937);
   static const Color _darkOnSurface = Color(0xFFF8FAFC);
-  static const Color _darkSurfaceVariant = Color(0xFF475569);
+  static const Color _darkSurfaceVariant = Color(0xFF374151);
   static const Color _darkOnSurfaceVariant = Color(0xFFE2E8F0);
-  static const Color _darkBackground = Color(0xFF374151);
+  static const Color _darkBackground = Color(0xFF0F172A);
   static const Color _darkOnBackground = Color(0xFFF8FAFC);
   static const Color _darkError = Color(0xFFF87171);
   static const Color _darkOnError = Color(0xFF7F1D1D);
@@ -95,7 +93,7 @@ class AppColour {
   static const Color _darkOnWarningContainer = Color(0xFFFFFBEB);
   static const Color _darkOutline = Color(0xFF4B5563);
   static const Color _darkOutlineVariant = Color(0xFF6B7280);
-  static const Color _darkCard = Color(0xFF1F2937);
+  static const Color _darkCard = Color(0xFF1E293B);
   static const Color _darkOnCard = Color(0xFFF8FAFC);
   static const Color _darkCardBorder = Color(0xFF4B5563);
   static const Color _darkTextFieldBackground = Color(0xFF374151);
@@ -107,6 +105,10 @@ class AppColour {
   static const Color _darkTextFieldLabel = Color(0xFFD1D5DB);
   static const Color _darkDisabled = Color(0xFF6B7280);
   static const Color _darkOnDisabled = Color(0xFF9CA3AF);
+
+  // Focus indicators
+  static const Color _lightFocusIndicator = Color(0xFF3B82F6);
+  static const Color _darkFocusIndicator = Color(0xFF60A5FA);
 
   // Common colours
   static const Color white = Color(0xFFFFFFFF);
@@ -173,7 +175,7 @@ class AppColour {
   // Surface and background colours
   static Color get surface => _getColour(_lightSurface, _darkSurface);
   static Color get onSurface => _getColour(_lightOnSurface, _darkOnSurface);
-  static Color get surfaceVariant =>
+  static Color get surfaceContainerHighest =>
       _getColour(_lightSurfaceVariant, _darkSurfaceVariant);
   static Color get onSurfaceVariant =>
       _getColour(_lightOnSurfaceVariant, _darkOnSurfaceVariant);
@@ -210,6 +212,10 @@ class AppColour {
   static Color get outlineVariant =>
       _getColour(_lightOutlineVariant, _darkOutlineVariant);
 
+  // Focus indicator
+  static Color get focusIndicator =>
+      _getColour(_lightFocusIndicator, _darkFocusIndicator);
+
   // Card colours
   static Color get card => _getColour(_lightCard, _darkCard);
   static Color get onCard => _getColour(_lightOnCard, _darkOnCard);
@@ -235,19 +241,11 @@ class AppColour {
   static Color get disabled => _getColour(_lightDisabled, _darkDisabled);
   static Color get onDisabled => _getColour(_lightOnDisabled, _darkOnDisabled);
 
-  // Legacy support
-  static Color get primaryText => onSurface;
-  static Color get secondaryText => onSurfaceVariant;
-  static Color get primaryButton => primary;
-  static Color get secondaryButton => secondaryContainer;
-
-  // ===== FUNCTIONS =====
-
   static Color _getColour(Color lightColour, Color darkColour) {
     return isDarkMode ? darkColour : lightColour;
   }
 
-  static ColorScheme getColorScheme({required bool isDarkMode}) {
+  static ColorScheme getColourScheme({required bool isDarkMode}) {
     if (isDarkMode) {
       return const ColorScheme.dark(
         primary: _darkPrimary,
@@ -272,6 +270,7 @@ class AppColour {
         onErrorContainer: _darkOnErrorContainer,
         outline: _darkOutline,
         outlineVariant: _darkOutlineVariant,
+        // Note: Focus indicator is not part of ColorScheme, use focusIndicator getter
       );
     } else {
       return const ColorScheme.light(
@@ -297,6 +296,7 @@ class AppColour {
         onErrorContainer: _lightOnErrorContainer,
         outline: _lightOutline,
         outlineVariant: _lightOutlineVariant,
+        // Note: Focus indicator is not part of ColorScheme, use focusIndicator getter
       );
     }
   }

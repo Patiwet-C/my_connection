@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_connection/app.dart';
+import 'package:my_connection/constants/default_values.dart';
 import 'package:my_connection/di/configure_dependencies.dart';
 import 'package:my_connection/routers/app_navigator.dart';
 import 'package:my_connection/utils/environment_util.dart';
 import 'package:my_connection/utils/logger_mixin.dart';
+import 'package:my_connection/utils/remote_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 enum AppEnvironment { develop, staging, production }
@@ -62,7 +64,12 @@ class AppConstants with BuiltInLogger {
       case AppEnvironment.staging:
         return 'https://api-staging.nonprod.hops.is';
       default:
-        return 'http://localhost:8081';
+        try {
+          final url = getIt<RemoteConfig>().getString(DefaultValues.apiBaseUrl);
+          return url;
+        } catch (e) {
+          return 'http://localhost:8081';
+        }
     }
   }
 }

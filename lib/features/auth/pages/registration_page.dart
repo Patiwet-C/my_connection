@@ -33,32 +33,72 @@ class _RegistrationPageState
                     style: styles.headline1,
                   ),
                   const SizedBox(height: 24),
+                  // Username
                   CustomTextField(
                     controller: bloc.usernameController,
                     label: translation.auth.registration.username,
                     hint: translation.auth.registration.username_hint,
+                    // inputFormatters: <TextInputFormatter>[
+                    //   FilteringTextInputFormatter.allow(
+                    //     CommonRegex.usernameRegex,
+                    //   ),
+                    // ],
                   ),
                   const SizedBox(height: 16),
-
+                  // Email
                   CustomTextField(
                     controller: bloc.emailController,
                     label: translation.auth.registration.email,
                     hint: translation.auth.registration.email_hint,
+                    keyboardType: TextInputType.emailAddress,
+                    // inputFormatters: <TextInputFormatter>[
+                    //   FilteringTextInputFormatter.allow(CommonRegex.emailRegex),
+                    // ],
                   ),
                   const SizedBox(height: 16),
-                  CustomTextField(
-                    controller: bloc.passwordController,
-                    label: translation.auth.registration.password,
-                    hint: translation.auth.registration.password_hint,
-                  ),
-                  const SizedBox(height: 16),
-                  CustomTextField(
-                    controller: bloc.confirmPasswordController,
-                    label: translation.auth.registration.confirm_password,
-                    hint: translation.auth.registration.password_hint,
-                  ),
-                  const SizedBox(height: 16),
+                  // Password
+                  StreamBuilder<bool>(
+                    stream: bloc.isObscurePassword,
+                    builder: (_, snapshot) {
+                      final isPasswordValid = snapshot.data ?? false;
 
+                      return CustomTextField(
+                        controller: bloc.passwordController,
+                        label: translation.auth.registration.password,
+                        hint: translation.auth.registration.password_hint,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: isPasswordValid,
+                        onObscureIconPressed: bloc.toggleObscurePassword,
+                        // inputFormatters: <TextInputFormatter>[
+                        //   FilteringTextInputFormatter.allow(
+                        //     CommonRegex.passwordRegex,
+                        //   ),
+                        // ],
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  // Confirm Password
+                  StreamBuilder<bool>(
+                    stream: bloc.isObscureConfirmPassword,
+                    builder: (_, snapshot) {
+                      final isConfirmPasswordValid = snapshot.data ?? false;
+
+                      return CustomTextField(
+                        controller: bloc.confirmPasswordController,
+                        label: translation.auth.registration.confirm_password,
+                        hint: translation.auth.registration.password_hint,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: isConfirmPasswordValid,
+                        onObscureIconPressed: bloc.toggleObscureConfirmPassword,
+                        // inputFormatters: <TextInputFormatter>[
+                        //   FilteringTextInputFormatter.allow(
+                        //     CommonRegex.passwordRegex,
+                        //   ),
+                        // ],
+                      );
+                    },
+                  ),
                   const SizedBox(height: 24),
                   CustomButton(
                     label: translation.button.register,

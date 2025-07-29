@@ -4,7 +4,9 @@ import 'package:my_connection/i18n/strings.g.dart';
 import 'package:my_connection/widgets/vgap.dart';
 
 class DashboardPage extends BaseStateless {
-  const DashboardPage({super.key});
+  final int? refreshKey;
+
+  const DashboardPage({super.key, this.refreshKey});
 
   @override
   Widget build(BuildContext context) {

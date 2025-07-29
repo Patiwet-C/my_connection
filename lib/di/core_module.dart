@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_connection/constants/app_constants.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -13,4 +14,8 @@ abstract class CoreModule {
   @lazySingleton
   Future<SharedPreferences> get sharedPreferences async =>
       await SharedPreferences.getInstance();
+
+  @injectable
+  FirebaseRemoteConfig get firebaseRemoteConfig =>
+      FirebaseRemoteConfig.instance;
 }

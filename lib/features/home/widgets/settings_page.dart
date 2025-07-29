@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_connection/base/base_stateless.dart';
 import 'package:my_connection/i18n/strings.g.dart';
 import 'package:my_connection/styles/app_colour.dart';
+import 'package:my_connection/widgets/custom_button.dart';
 import 'package:my_connection/widgets/custom_card.dart';
 import 'package:my_connection/widgets/custom_switch.dart';
 import 'package:my_connection/widgets/switch_tab_button.dart';
@@ -10,6 +11,7 @@ import 'package:my_connection/widgets/vgap.dart';
 class SettingsPage extends BaseStateless {
   final Function(int) onDarkModeChanged;
   final Function(int) onLanguageChanged;
+  final Function() onLogout;
   final TabController languageController;
   final TabController darkModeController;
 
@@ -17,6 +19,7 @@ class SettingsPage extends BaseStateless {
     super.key,
     required this.onDarkModeChanged,
     required this.onLanguageChanged,
+    required this.onLogout,
     required this.languageController,
     required this.darkModeController,
   });
@@ -67,6 +70,13 @@ class SettingsPage extends BaseStateless {
                       firstLabel: t.button.en,
                       secondLabel: t.button.th,
                     ),
+                  ),
+                  const Divider(),
+                  CustomButton(
+                    key: ValueKey(t.button.logout),
+                    label: t.button.logout,
+                    onPressed: onLogout,
+                    isFullWidth: true,
                   ),
                 ],
               ),

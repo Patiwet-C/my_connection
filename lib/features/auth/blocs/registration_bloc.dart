@@ -15,7 +15,12 @@ abstract class IRegistrationBloc {
   TextEditingController get passwordController;
   TextEditingController get confirmPasswordController;
 
+  ValueStream<bool> get isObscurePassword;
+  ValueStream<bool> get isObscureConfirmPassword;
+
   void register();
+  void toggleObscurePassword();
+  void toggleObscureConfirmPassword();
 }
 
 @injectable
@@ -57,6 +62,11 @@ class RegistrationBloc extends BaseBloc<IRegistrationBloc>
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final BehaviorSubject<bool> _isObscurePassword = BehaviorSubject<bool>.seeded(
+    false,
+  );
+  final BehaviorSubject<bool> _isObscureConfirmPassword =
+      BehaviorSubject<bool>.seeded(false);
 
   final PublishSubject<UsersRequest> _register = PublishSubject<UsersRequest>();
 
@@ -87,6 +97,16 @@ class RegistrationBloc extends BaseBloc<IRegistrationBloc>
   }
 
   @override
+  void toggleObscurePassword() {
+    _isObscurePassword.add(!_isObscurePassword.value);
+  }
+
+  @override
+  void toggleObscureConfirmPassword() {
+    _isObscureConfirmPassword.add(!_isObscureConfirmPassword.value);
+  }
+
+  @override
   IRegistrationBloc get bloc => this;
 
   @override
@@ -104,4 +124,10 @@ class RegistrationBloc extends BaseBloc<IRegistrationBloc>
   @override
   TextEditingController get confirmPasswordController =>
       _confirmPasswordController;
+
+  @override
+  ValueStream<bool> get isObscurePassword => _isObscurePassword;
+
+  @override
+  ValueStream<bool> get isObscureConfirmPassword => _isObscureConfirmPassword;
 }

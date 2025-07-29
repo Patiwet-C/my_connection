@@ -27,6 +27,16 @@ class $AssetsFontsGen {
   List<String> get values => [promptBold, promptRegular];
 }
 
+class $AssetsJsonGen {
+  const $AssetsJsonGen();
+
+  /// File path: assets/json/default_remote_config.json
+  String get defaultRemoteConfig => 'assets/json/default_remote_config.json';
+
+  /// List of all assets
+  List<String> get values => [defaultRemoteConfig];
+}
+
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
@@ -139,6 +149,7 @@ class Assets {
   const Assets._();
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsJsonGen json = $AssetsJsonGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
   static const String develop = 'develop.env';
   static const String production = 'production.env';
