@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_connection/base/base_stateless.dart';
 import 'package:my_connection/styles/app_colour.dart';
 
-class CustomCard extends StatelessWidget {
+class CustomCard extends BaseStateless {
   const CustomCard({super.key, required this.child});
   final Widget child;
 

@@ -42,7 +42,7 @@ class LocalStorage implements ILocalStorage {
 
   @override
   Future<void> delete({required String key}) async {
-    await _storage.remove(key);
+    await _storage.remove(StorageKey.storageKey(key));
   }
 
   // Enhanced caching methods

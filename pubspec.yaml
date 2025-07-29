@@ -58,12 +58,14 @@ dependencies:
   # Firebase
   firebase_core: ^3.15.1
   firebase_analytics: ^11.5.2
+  firebase_remote_config: ^5.5.0
 
   # Debugging tools
   flutter_fimber: ^0.7.1
 
   # Proxy overrides
   system_proxy: ^0.1.0
+  
 
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -84,6 +86,7 @@ flutter:
   assets:
     - assets/svg/
     - assets/fonts/
+    - assets/json/
     - develop.env
     - production.env
 

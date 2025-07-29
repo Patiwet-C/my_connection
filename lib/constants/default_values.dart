@@ -1,10 +1,7 @@
 class DefaultValues {
   DefaultValues._();
 
-  static const String accessToken = 'access-token';
-  static const String refreshToken = 'refresh-token';
-  static const String userEmail = 'user-email';
-  static const String userLevel = 'user-level';
+  static const String apiBaseUrl = 'api_base_url';
 
   static const int inputTextLimit = 255;
 

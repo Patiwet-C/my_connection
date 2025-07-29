@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:my_connection/base/activity_indicator.dart';
 import 'package:my_connection/base/base_bloc.dart';
 import 'package:my_connection/constants/app_constants.dart';
+import 'package:my_connection/constants/router_name.dart';
 import 'package:my_connection/constants/storage_key.dart';
 import 'package:my_connection/routers/app_navigator.dart';
 import 'package:my_connection/styles/app_text_styles.dart';
@@ -17,6 +18,7 @@ abstract class IHomeBloc {
   void onTabSelected(int index);
   void onDarkModeChanged(int index);
   void onLanguageChanged(int index);
+  void logout();
 }
 
 @injectable
@@ -29,7 +31,7 @@ class HomeBloc extends BaseBloc<IHomeBloc> implements IHomeBloc {
 
   final ActivityIndicator _activityIndicator = ActivityIndicator();
 
-  final BehaviorSubject<int> _selectedIndex = BehaviorSubject<int>.seeded(2);
+  final BehaviorSubject<int> _selectedIndex = BehaviorSubject<int>.seeded(0);
 
   int _languageIndex = 0;
   int _darkModeIndex = 0;
@@ -43,7 +45,7 @@ class HomeBloc extends BaseBloc<IHomeBloc> implements IHomeBloc {
     _languageIndex =
         _localStorage.getCachedData<int>(StorageKey.languageSetting) ?? 0;
 
-    _darkModeIndex = isDarkMode ? 1 : 0;
+    _darkModeIndex = isDarkMode ? 0 : 1;
   }
 
   @override
@@ -66,6 +68,15 @@ class HomeBloc extends BaseBloc<IHomeBloc> implements IHomeBloc {
     _localStorage.cacheData(key: StorageKey.languageSetting, data: index);
     CommonUtils.changeLanguage(index);
     _languageIndex = index;
+  }
+
+  @override
+  void logout() {
+    _localStorage.delete(key: StorageKey.accessToken);
+    _appNavigator.pushNamedAndRemoveUntil(
+      RouterName.authenticationPage,
+      (route) => false,
+    );
   }
 
   @override

@@ -47,24 +47,34 @@ class _HomePageState extends BaseBlocState<HomeBloc, IHomeBloc, HomePage>
       builder: (_, snapshot) {
         final index = snapshot.data ?? 0;
 
-        return [
-          DashboardPage(),
-          ProfilePage(),
-          SettingsPage(
-            onDarkModeChanged: (int index) {
-              setState(() {
-                bloc.onDarkModeChanged(index);
-              });
-            },
-            onLanguageChanged: (int index) {
-              setState(() {
-                bloc.onLanguageChanged(index);
-              });
-            },
-            languageController: languageController,
-            darkModeController: darkModeController,
+        return SingleChildScrollView(
+          controller: scrollController,
+          physics: const BouncingScrollPhysics(),
+          child: IndexedStack(
+            index: index,
+            children: <Widget>[
+              const DashboardPage(),
+              const ProfilePage(),
+              SettingsPage(
+                onDarkModeChanged: (int index) {
+                  // NOTE: have to setstate to re-render screen
+                  setState(() {
+                    bloc.onDarkModeChanged(index);
+                  });
+                },
+                onLanguageChanged: (int index) {
+                  // NOTE: have to setstate to re-render screen
+                  setState(() {
+                    bloc.onLanguageChanged(index);
+                  });
+                },
+                onLogout: bloc.logout,
+                languageController: languageController,
+                darkModeController: darkModeController,
+              ),
+            ],
           ),
-        ].elementAt(index);
+        );
       },
     );
   }
